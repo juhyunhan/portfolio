@@ -492,11 +492,13 @@ function App() {
                   ) : null}
                 </div>
 
-                <div className="mt-8 rounded-[24px] border border-slate-200 bg-slate-50/90 p-5">
-                  <p className="text-base leading-8 text-slate-600">
-                    {project.note}
-                  </p>
-                </div>
+                {project.note ? (
+                  <div className="mt-8 rounded-[24px] border border-slate-200 bg-slate-50/90 p-5">
+                    <p className="text-base leading-8 text-slate-600">
+                      {project.note}
+                    </p>
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>

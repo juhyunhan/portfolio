@@ -186,8 +186,7 @@ export const projects: Project[] = [
         link: publicAsset('files/papers/ICCE_Asia_2025_VLM_juhyeonHan.pdf'),
       },
     ],
-    note:
-      'Reasoning prompt는 별도 reasoning supervision이 없는 설정에서도 한국어 현수막 분류 성능을 크게 끌어올렸고, reasoning-augmented training과 결합했을 때 가장 높은 성능을 보였습니다. 또한 Crop / Flat / Warp를 균형 있게 포함한 데이터 구성은 OCR과 유형 분류의 일관성을 높이는 데 효과적이었습니다.',
+    note: '',
   },
   {
     id: 'legal-qlora-rag',
@@ -264,8 +263,7 @@ export const projects: Project[] = [
         year: '2024',
       },
     ],
-    note:
-      '법률 도메인 데이터 전처리부터 QLoRA fine-tuning, RetrievalQA 기반 grounding, FastAPI streaming inference까지 연결한 프로젝트로, LLM의 domain adaptation과 inference application 역량을 보여줍니다.',
+    note: '',
   },
   {
     id: 'event-rag-chatbot',
@@ -347,8 +345,7 @@ export const projects: Project[] = [
         year: '2023',
       },
     ],
-    note:
-      'RAG는 모델이 학습하지 않은 행사 정보를 활용하는 데 효과적이었지만, VectorStore에 저장되는 문서 구조와 retriever 설정, prompt template 설계에 따라 추천 품질과 응답 일관성이 크게 달라졌습니다.',
+    note: '',
   },
 ]
 
