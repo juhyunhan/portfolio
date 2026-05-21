@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'IBM Plex Sans KR', 'Noto Sans KR', system-ui, sans-serif;
+  --font-serif: 'Fraunces', 'Noto Serif KR', serif;
+}
+
+@layer base {
+  html {
+    --portfolio-scale: 0.69;
+    scroll-behavior: smooth;
+    font-size: calc(100% * var(--portfolio-scale));
+  }
+
+  body {
+    @apply min-h-screen bg-slate-50 font-sans text-slate-700 antialiased;
+    margin: 0;
+    background-image:
+      radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 26%),
+      linear-gradient(180deg, #fcfdff 0%, #f3f6fa 100%);
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;  
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size:
+      calc(48px * var(--portfolio-scale))
+      calc(48px * var(--portfolio-scale));
+    mask-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 255, 255, 0.06)
+    );
+    opacity: 0.18;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  ::selection {
+    @apply bg-slate-200 text-slate-900;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
