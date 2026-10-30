@@ -93,7 +93,7 @@ export const navItems: NavItem[] = [
   { label: 'Projects', href: '#projects' },
   { label: 'Publications', href: '#publications' },
   { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Awards', href: '#awards' },
 ]
 
 export const heroKeywords = [
@@ -111,7 +111,7 @@ export const projects: Project[] = [
   {
     id: 'vlm-scene-text',
     title: 'VLM 기반 한국어 현수막 OCR 및 유형 분류 성능 분석',
-    subtitle: 'ETRI Visual Intelligence Lab Research Intern',
+    subtitle: 'ETRI Visual Intelligence Lab Intern',
     description:
       '한국어 현수막 이미지의 OCR 및 유형 분류 성능을 분석하기 위해 여러 VLM 후보 모델을 비교하고, Qwen2.5-VL-3B-Instruct를 기반으로 fine-tuning, structured prompt 설계, benchmark evaluation을 수행했습니다.',
     detailBlocks: [
@@ -144,12 +144,6 @@ export const projects: Project[] = [
         aspectClass: 'aspect-[9/10]',
         kind: 'image',
         fit: 'contain',
-      },
-      {
-        label: 'Direct Prompt와 Reasoning Prompt 설계 예시',
-        src: publicAsset('images/etri-prompt-design.jpg'),
-        aspectClass: 'aspect-[4/3]',
-        kind: 'image',
       },
     ],
     imagesPosition: 'bottom',
@@ -269,12 +263,13 @@ export const projects: Project[] = [
     id: 'event-rag-chatbot',
     title: 'LangChain 기반 행사 추천 RAG 챗봇 및 Conversational Agent',
     description:
-      '행사 정보 CSV를 Document Loader로 처리하고 VectorStore에 저장한 뒤, RetrievalQA와 ConversationBufferWindowMemory를 결합해 사용자 질문에 맞는 행사 정보를 검색·추천하는 LangChain 기반 RAG 챗봇을 구현했습니다. 단순 질의응답보다 retrieval quality, prompt structure, context-aware response generation에 초점을 두었습니다.',
+      'CatchPlan은 행사 탐색과 추천을 제공하는 모바일 앱으로, 실제 앱 출시까지 진행했습니다. 행사 정보 CSV를 Document Loader로 처리하고 VectorStore에 저장한 뒤, RetrievalQA와 ConversationBufferWindowMemory를 결합해 사용자 질문에 맞는 행사 정보를 검색·추천하는 LangChain 기반 RAG 챗봇을 구현했습니다.',
     detailBlocks: [
       {
         title: '주요 구현',
         layout: 'list',
         items: [
+          'CatchPlan 모바일 애플리케이션 실제 출시',
           'Document Loader 기반 CSV 데이터 처리',
           'OpenAIEmbeddings 기반 문서 embedding',
           'Pinecone VectorStore indexing 및 retrieval',
@@ -304,15 +299,10 @@ export const projects: Project[] = [
         aspectClass: 'aspect-[16/10]',
         kind: 'image',
       },
-      {
-        label: '프로젝트 구현 화면 및 챗봇 인터페이스 예시',
-        src: publicAsset('images/ict-project-app-screens.jpg'),
-        aspectClass: 'aspect-[16/10]',
-        kind: 'image',
-      },
     ],
     imagesPosition: 'bottom',
     keywords: [
+      'Released App',
       'RAG',
       'LangChain',
       'RetrievalQA',
@@ -466,21 +456,21 @@ export const skills: SkillCategory[] = [
     ],
   },
   {
-    category: 'Deep Learning',
-    items: ['PyTorch', 'TensorFlow'],
+    category: 'AI Backend & Applications',
+    items: ['FastAPI', 'REST API', 'Streaming Response', 'RetrievalQA', 'Conversational Agent'],
   },
   {
-    category: 'Backend & Data',
+    category: 'Data & Research Pipelines',
     items: [
-      'FastAPI',
-      'REST API',
+      'PyTorch',
+      'TensorFlow',
       'Pandas',
       'NumPy',
       'JSON-based inference pipeline',
     ],
   },
   {
-    category: 'Computer Vision',
-    items: ['Object Detection', 'OpenCV', 'SAR image processing'],
+    category: 'Evaluation & Vision',
+    items: ['Model Evaluation', 'Error Analysis', 'Object Detection', 'OpenCV', 'SAR image processing'],
   },
 ]

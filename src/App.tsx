@@ -1,683 +1,84 @@
-import {
-  awards,
-  heroKeywords,
-  navItems,
-  projects,
-  publicAsset,
-  publications,
-  skills,
-  type ProjectBlock,
-  type ProjectImage,
-} from './data'
+import { useEffect, useState } from 'react'
+import { awards, navItems, projects, publicAsset, publications, skills, type Project } from './data'
 
-const cardClass =
-  'rounded-[30px] border border-slate-200/90 bg-white/90 shadow-[0_28px_70px_-45px_rgba(15,23,42,0.34)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_32px_80px_-42px_rgba(15,23,42,0.38)]'
+const Arrow = ({ diagonal = false }: { diagonal?: boolean }) => <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>
+const Tag = ({ children }: { children: string }) => <span className="tag">{children}</span>
 
-const sectionClass = 'scroll-mt-28'
-const secondaryButtonClass =
-  'inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-slate-300 hover:text-slate-900'
-const downloadButtonClass =
-  'inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700'
-
-const isPublicFile = (href: string) => href.includes('/files/') || href.startsWith('files/')
-
-function SectionHeader({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string
-  title: string
-  description?: string
-}) {
-  return (
-    <div className="mx-auto max-w-3xl text-center">
-      <p className="text-sm font-semibold uppercase tracking-[0.26em] text-slate-500">
-        {eyebrow}
-      </p>
-      <h2 className="mt-4 font-serif text-3xl text-slate-900 sm:text-4xl">
-        {title}
-      </h2>
-      {description ? (
-        <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  )
+function SectionHeading({ index, eyebrow, title, copy }: { index: string; eyebrow: string; title: string; copy?: string }) {
+  return <div className="section-heading reveal"><div className="section-kicker"><span>{index}</span>{eyebrow}</div><div><h2>{title}</h2>{copy && <p>{copy}</p>}</div></div>
 }
 
-function BadgeList({ items }: { items: string[] }) {
-  return (
-    <div className="flex flex-wrap gap-2.5">
-      {items.map((item) => (
-        <span
-          key={item}
-          className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-600"
-        >
-          {item}
-        </span>
-      ))}
-    </div>
-  )
+function HeroVisuals() {
+  return <div className="hero-visual" aria-label="Featured Legal AI web application">
+    <figure className="hero-product">
+      <div className="product-bar"><span /><span /><span /><b>LEGAL AI · DOCUMENT INTELLIGENCE</b></div>
+      <img src={publicAsset('images/legal-ai-app-overview.jpg')} alt="Legal AI document intelligence web application" />
+      <figcaption><div><i />FEATURED PRODUCT</div><p>QLoRA fine-tuning · RetrievalQA · FastAPI streaming</p></figcaption>
+    </figure>
+    <div className="hero-product-note"><span>01</span><p>From legal PDF processing<br />to a usable AI web experience.</p></div>
+  </div>
 }
 
-function ImagePlaceholder({ label, src, aspectClass, kind, fit }: ProjectImage) {
-  if (kind === 'image') {
-    return (
-      <figure className="overflow-hidden rounded-[28px] border border-slate-200 bg-white">
-        <div className={`overflow-hidden bg-slate-100 ${aspectClass}`}>
-          <img
-            src={src}
-            alt={label}
-            className={
-              fit === 'contain'
-                ? 'h-full w-full object-contain object-center p-3'
-                : 'h-full w-full object-cover object-center'
-            }
-          />
+const projectPresentation: Record<string, { title: string; domain: string; summary: string }> = {
+  'legal-qlora-rag': {
+    title: 'QLoRA-based Legal LLM & RetrievalQA System',
+    domain: 'AI Web Application',
+    summary: 'A domain-adapted legal intelligence system connecting structured document processing to a streaming web experience.',
+  },
+  'event-rag-chatbot': {
+    title: 'CatchPlan — RAG-Powered Conversational Agent',
+    domain: 'Released Mobile Product',
+    summary: 'An event discovery app released as a real mobile product, featuring a RAG-powered conversational recommendation agent.',
+  },
+  'vlm-scene-text': {
+    title: 'VLM Fine-tuning & Structured Prompt Optimization',
+    domain: 'Multimodal AI Research',
+    summary: 'A multimodal research pipeline for Korean scene-text recognition, structured prompting, and model evaluation.',
+  },
+}
+
+function ProjectOverview({ orderedProjects }: { orderedProjects: Project[] }) {
+  return <div className="work-overview reveal">
+    {orderedProjects.map((project, index) => {
+      const presentation = projectPresentation[project.id]
+      return <a href={`#${project.id}`} className="overview-card" key={project.id}>
+        <div className={`overview-images ${project.images.length === 1 ? 'single' : ''}`}>
+          <img src={project.images[0].src} alt="" />
+          {project.images[1] && <img src={project.images[1].src} alt="" />}
         </div>
-        <figcaption className="border-t border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-600">
-          {label}
-        </figcaption>
-      </figure>
-    )
-  }
-
-  return (
-    <div
-      className={`relative overflow-hidden rounded-[28px] border border-dashed border-slate-300 bg-slate-100 ${aspectClass}`}
-      style={{
-        backgroundImage: `linear-gradient(135deg, rgba(248, 250, 252, 0.94), rgba(226, 232, 240, 0.82)), url(${src})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      }}
-    >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.08),transparent_38%)]" />
-      <div className="relative flex h-full items-center justify-center p-6 text-center">
-        <div>
-          <p className="text-sm font-semibold tracking-[0.08em] text-slate-500">
-            {label}
-          </p>
-          <p className="mt-3 text-xs text-slate-400">{src}</p>
-        </div>
-      </div>
-    </div>
-  )
+        <div><span>0{index + 1} · {presentation.domain}</span><h3>{presentation.title}</h3><b>View project ↓</b></div>
+      </a>
+    })}
+  </div>
 }
 
-function ProfileImageCard() {
-  return (
-    <div className="relative mx-auto w-full max-w-[14.5rem] overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100 aspect-[4/5] sm:max-w-[15.5rem]">
-      <img
-        src={publicAsset('images/profile-photo.jpg')}
-        alt="Han Juhyeon profile"
-        className="h-full w-full object-cover object-center"
-      />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/10 via-slate-950/0 to-transparent" />
-    </div>
-  )
-}
-
-function ProjectBlockSection({ block }: { block: ProjectBlock }) {
-  if (block.layout === 'grid') {
-    return (
-      <div className="mt-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-          {block.title}
-        </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {block.items.map((item) => (
-            <div
-              key={item}
-              className="flex min-h-24 items-center rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700"
-            >
-              <span className="break-keep text-pretty leading-7">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="mt-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-        {block.title}
-      </p>
-      <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50/80 p-5">
-        <ul className="space-y-3">
-          {block.items.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-slate-700">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-              <span className="leading-7">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const [expanded, setExpanded] = useState(false)
+  const presentation = projectPresentation[project.id]
+  return <article id={project.id} className={`project-card reveal project-${index + 1}`}>
+    <div className="project-copy"><div className="project-number">0{index + 1} <span>/ ENGINEERING CASE STUDY</span></div><p className="project-domain">{presentation.domain}</p><h3>{presentation.title}</h3>{project.subtitle && <p className="project-affiliation">{project.subtitle}</p>}<p className="project-summary">{presentation.summary}</p><div className="tag-row">{project.keywords.slice(0, 5).map((item) => <Tag key={item}>{item}</Tag>)}</div><button className="text-button" onClick={() => setExpanded(!expanded)} aria-expanded={expanded}>{expanded ? 'Close case study' : 'Explore case study'} <Arrow /></button></div>
+    <div className={`project-media ${project.images[1] ? 'has-secondary' : 'single-media'}`}><img className="project-image-main" src={project.images[0].src} alt={project.images[0].label} loading="lazy" />{project.images[1] && <div className="project-image-secondary"><img src={project.images[1].src} alt={project.images[1].label} loading="lazy" /><small>MORE PROJECT VISUALS</small></div>}<span className="media-label">REAL PROJECT ASSETS · 0{index + 1}</span></div>
+    {expanded && <div className="case-study"><div className="case-intro"><span>PROBLEM & APPROACH</span><p>{project.description}</p></div>{project.pipeline && <div className="pipeline" aria-label="System architecture">{project.pipeline.map((step, stepIndex) => <div key={step}><b>{String(stepIndex + 1).padStart(2, '0')}</b><span>{step}</span></div>)}</div>}<div className="case-grid">{project.detailBlocks.map((block) => <div key={block.title}><span>{block.title}</span><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></div>)}{project.images.slice(1).map((image) => <figure key={image.label}><img src={image.src} alt={image.label} loading="lazy" /><figcaption>{image.label}</figcaption></figure>)}</div><div className="case-links">{project.externalLinks?.map((link) => <a key={link.href} href={link.href} target={link.download ? undefined : '_blank'} rel="noreferrer">{link.label} <Arrow diagonal /></a>)}{project.relatedPublications?.map((paper) => <a key={paper.title} href={paper.link} target="_blank" rel="noreferrer">{paper.venue} {paper.year} PDF <Arrow diagonal /></a>)}</div></div>}
+  </article>
 }
 
 function App() {
-  return (
-    <div className="min-h-screen">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-6 py-4">
-            <a
-              href="#about"
-              className="font-serif text-xl font-semibold tracking-[0.03em] text-slate-900"
-            >
-              Han Juhyeon
-            </a>
-            <nav className="hidden items-center gap-6 md:flex">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-slate-500 hover:text-slate-900"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-          <nav className="scrollbar-hidden overflow-x-auto pb-3 md:hidden">
-            <div className="flex min-w-max items-center gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-500"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </nav>
-        </div>
-      </header>
-
-      <main className="pb-20 pt-28 sm:pt-32">
-        <section
-          id="about"
-          className={`${sectionClass} mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}
-        >
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.95fr)]">
-            <div className={`${cardClass} p-8 sm:p-10 lg:p-12`}>
-              <h1 className="font-serif text-4xl leading-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                Research Portfolio
-              </h1>
-              <div className="mt-6 text-xl font-semibold text-slate-800 sm:text-2xl">
-                Han Juhyeon
-              </div>
-              <p className="mt-3 text-base font-medium text-slate-600 sm:text-lg">
-                Fine-tuning · Prompt Engineering · Multimodal Evaluation · RAG
-              </p>
-              <p className="mt-8 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
-                저는 한국항공대학교 AI 석사과정에서 컴퓨터비전과 멀티모달
-                모델을 중심으로 연구하고 있습니다. ETRI 연구인턴 경험을 통해
-                VLM fine-tuning, structured prompt engineering, 성능 평가
-                파이프라인 구축을 수행했습니다. 학부 시기에는 LangChain 기반
-                RAG 시스템과 QLoRA 기반 LLM 응용 프로젝트를 진행하며
-                retrieval pipeline과 LLM application 구현 경험을 쌓았습니다.
-              </p>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
-                최근에는 LLM/VLM이 실제 태스크에서 안정적으로 동작하기 위한
-                prompt 설계, fine-tuning 전략, 평가 파이프라인에 관심을 두고
-                있습니다. 특히 모델의 출력 일관성, reasoning 과정,
-                task-specific adaptation을 분석하며 초거대 언어모델의 성능
-                개선과 평가 방법을 더 깊이 연구하고자 합니다.
-              </p>
-              <div className="mt-8">
-                <BadgeList items={heroKeywords} />
-              </div>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <a
-                  href="#projects"
-                  className="inline-flex items-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
-                >
-                  프로젝트 보기
-                </a>
-                <a
-                  href="#publications"
-                  className="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
-                >
-                  논문 및 성과 보기
-                </a>
-              </div>
-            </div>
-
-            <div className={`${cardClass} p-6 sm:p-7`}>
-              <ProfileImageCard />
-              <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                  Research Summary
-                </p>
-                <ul className="mt-4 space-y-3">
-                  <li className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-                    <span className="leading-7 text-slate-700">
-                      Computer Vision과 Multimodal Learning 기반 문제 정의 및
-                      실험 설계
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-                    <span className="leading-7 text-slate-700">
-                      VLM fine-tuning과 structured prompt engineering 수행
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-                    <span className="leading-7 text-slate-700">
-                      LangChain, VectorStore 기반 RAG 시스템 구현 및 응답 품질
-                      분석
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-                    <span className="leading-7 text-slate-700">
-                      QLoRA 기반 LLM 응용 프로젝트와 task-specific adaptation
-                      실험
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="projects"
-          className={`${sectionClass} mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8`}
-        >
-          <SectionHeader
-            eyebrow="Main Projects"
-            title="LLM/VLM 중심 프로젝트"
-          />
-          <div className="mt-10 space-y-8">
-            {projects.map((project, index) => (
-              <article key={project.id} className={`${cardClass} p-6 sm:p-8 lg:p-10`}>
-                <div
-                  className={
-                    project.images.length > 0 && project.imagesPosition !== 'bottom'
-                      ? 'grid gap-8 xl:grid-cols-[minmax(0,1.18fr)_minmax(320px,0.82fr)]'
-                      : ''
-                  }
-                >
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
-                      Main Project 0{index + 1}
-                    </p>
-                    <h3 className="mt-4 font-serif text-3xl leading-tight text-slate-900 sm:text-4xl">
-                      {project.title}
-                    </h3>
-                    {project.subtitle ? (
-                      <p className="mt-3 text-base font-medium text-slate-500">
-                        {project.subtitle}
-                      </p>
-                    ) : null}
-                    <p className="mt-6 text-base leading-8 text-slate-600">
-                      {project.description}
-                    </p>
-
-                    {project.detailBlocks.map((block) => (
-                      <ProjectBlockSection key={block.title} block={block} />
-                    ))}
-
-                    {project.pipeline ? (
-                      <div className="mt-8">
-                        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                          Pipeline
-                        </p>
-                        <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50/80 p-5">
-                          <div className="flex flex-wrap items-center gap-3">
-                            {project.pipeline.map((step, stepIndex) => (
-                              <div key={step} className="flex items-center gap-3">
-                                <div className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">
-                                  {step}
-                                </div>
-                                {stepIndex < project.pipeline!.length - 1 ? (
-                                  <span className="text-slate-400">→</span>
-                                ) : null}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ) : null}
-
-                    <div className="mt-8">
-                      <BadgeList items={project.keywords} />
-                    </div>
-
-                    {project.externalLinks?.length ? (
-                      <div className="mt-5 flex flex-wrap gap-3">
-                        {project.externalLinks.map((link) => (
-                          <a
-                            key={link.href}
-                            href={link.href}
-                            download={link.download ? '' : undefined}
-                            target={link.download ? undefined : '_blank'}
-                            rel={link.download ? undefined : 'noreferrer'}
-                            className={
-                              link.download
-                                ? downloadButtonClass
-                                : secondaryButtonClass
-                            }
-                          >
-                            {link.label}
-                          </a>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {project.relatedPublications?.length ? (
-                      <div className="mt-8">
-                        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                          Publications
-                        </p>
-                        {project.relatedPublicationsIntro ? (
-                          <p className="mt-3 text-sm leading-7 text-slate-600">
-                            {project.relatedPublicationsIntro}
-                          </p>
-                        ) : null}
-                        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-                          {project.relatedPublications.map((publication) => (
-                            <article
-                              key={publication.title}
-                              className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-5"
-                            >
-                              <div className="flex flex-wrap items-start justify-between gap-3">
-                                <div>
-                                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                    {publication.venue}
-                                  </p>
-                                  <h4 className="mt-3 text-base font-semibold leading-7 text-slate-900">
-                                    {publication.title}
-                                  </h4>
-                                </div>
-                                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-600">
-                                  {publication.year}
-                                </span>
-                              </div>
-                              <div className="mt-4">
-                                <BadgeList items={publication.keywords} />
-                              </div>
-                              <a
-                                href={publication.link}
-                                download={publication.link !== '#' ? '' : undefined}
-                                onClick={(event) => {
-                                  if (publication.link === '#') {
-                                    event.preventDefault()
-                                  }
-                                }}
-                                className={
-                                  publication.link === '#'
-                                    ? `mt-4 ${secondaryButtonClass}`
-                                    : `mt-4 ${downloadButtonClass}`
-                                }
-                              >
-                                {publication.link === '#' ? '논문 링크 추가 예정' : '논문 다운로드'}
-                              </a>
-                            </article>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-
-                    {project.relatedAwards?.length ? (
-                      <div className="mt-8">
-                        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                          Awards
-                        </p>
-                        {project.relatedAwardsIntro ? (
-                          <p className="mt-3 text-sm leading-7 text-slate-600">
-                            {project.relatedAwardsIntro}
-                          </p>
-                        ) : null}
-                        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-                          {project.relatedAwards.map((award) => (
-                            <article
-                              key={`${award.event}-${award.year}`}
-                              className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-5"
-                            >
-                              <div className="flex flex-wrap items-start justify-between gap-3">
-                                <div>
-                                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                    {award.year}
-                                  </p>
-                                  <h4 className="mt-3 text-base font-semibold leading-7 text-slate-900">
-                                    {award.title}
-                                  </h4>
-                                </div>
-                                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-600">
-                                  Award
-                                </span>
-                              </div>
-                              <p className="mt-4 text-sm font-medium leading-7 text-slate-700">
-                                {award.event}
-                              </p>
-                              <p className="mt-2 text-sm leading-7 text-slate-500">
-                                {award.organization}
-                              </p>
-                            </article>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-
-                    {project.images.length && project.imagesPosition === 'bottom' ? (
-                      <div className="mt-8">
-                        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                          Visuals
-                        </p>
-                        <div className="mt-4 grid gap-5 lg:grid-cols-2">
-                          {project.images.map((image) => (
-                            <ImagePlaceholder key={image.label} {...image} />
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-
-                  {project.images.length && project.imagesPosition !== 'bottom' ? (
-                    <div className="space-y-5">
-                      {project.images.map((image) => (
-                        <ImagePlaceholder key={image.label} {...image} />
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-
-                {project.note ? (
-                  <div className="mt-8 rounded-[24px] border border-slate-200 bg-slate-50/90 p-5">
-                    <p className="text-base leading-8 text-slate-600">
-                      {project.note}
-                    </p>
-                  </div>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="publications"
-          className={`${sectionClass} mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8`}
-        >
-          <SectionHeader
-            eyebrow="Publications"
-            title="연구 성과 및 논문"
-          />
-          <div className="mt-10 space-y-10">
-            {publications.map((group) => (
-              <div key={group.category}>
-                <div className="mb-5 flex items-center justify-between gap-4">
-                  <h3 className="font-serif text-2xl text-slate-900 sm:text-3xl">
-                    {group.category}
-                  </h3>
-                  <span className="hidden h-px flex-1 bg-slate-200 sm:block" />
-                </div>
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {group.items.map((publication) => (
-                    <article key={publication.title} className={`${cardClass} p-6`}>
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                            {publication.venue}
-                          </p>
-                          <h4 className="mt-3 text-xl font-semibold leading-8 text-slate-900">
-                            {publication.title}
-                          </h4>
-                        </div>
-                        <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-600">
-                          {publication.year}
-                        </span>
-                      </div>
-                      <div className="mt-6">
-                        <BadgeList items={publication.keywords} />
-                      </div>
-                      {group.showLinks !== false ? (
-                        <a
-                          href={publication.link}
-                          download={publication.link !== '#' ? '' : undefined}
-                          onClick={(event) => {
-                            if (publication.link === '#') {
-                              event.preventDefault()
-                            }
-                          }}
-                          className={
-                            publication.link === '#'
-                              ? `mt-6 ${secondaryButtonClass}`
-                              : `mt-6 ${downloadButtonClass}`
-                          }
-                        >
-                          {publication.link === '#' ? '논문 링크 추가 예정' : '논문 다운로드'}
-                        </a>
-                      ) : null}
-                    </article>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto mt-20 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="Awards"
-            title="수상 성과"
-            description="프로젝트 구현과 문제 해결 경험이 실제 성과로 이어진 수상 이력을 정리했습니다."
-          />
-          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {awards.map((award) => (
-              <article key={`${award.event}-${award.year}`} className={`${cardClass} p-6`}>
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-                  {award.year}
-                </p>
-                <h3 className="mt-4 font-serif text-2xl text-slate-900">
-                  {award.title}
-                </h3>
-                <p className="mt-3 text-base font-medium text-slate-700">
-                  {award.event}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-500">
-                  {award.organization}
-                </p>
-                {award.relatedProject ? (
-                  <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Related Project
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
-                      {award.relatedProject}
-                    </p>
-                  </div>
-                ) : null}
-                {award.linkHref && award.linkLabel ? (
-                  <a
-                    href={award.linkHref}
-                    download={isPublicFile(award.linkHref) ? '' : undefined}
-                    target={isPublicFile(award.linkHref) ? undefined : '_blank'}
-                    rel={isPublicFile(award.linkHref) ? undefined : 'noreferrer'}
-                    className={
-                      isPublicFile(award.linkHref)
-                        ? `mt-4 ${downloadButtonClass}`
-                        : `mt-4 ${secondaryButtonClass}`
-                    }
-                  >
-                    {award.linkLabel}
-                  </a>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="skills"
-          className={`${sectionClass} mx-auto mt-20 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:px-8`}
-        >
-          <SectionHeader
-            eyebrow="Technical Skills"
-            title="연구형 포지션 중심 기술 스택"
-            description="모델 실험, data preprocessing, inference pipeline, evaluation workflow에 직접 사용한 기술을 중심으로 정리했습니다."
-          />
-          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {skills.map((skillCategory) => (
-              <article key={skillCategory.category} className={`${cardClass} p-6`}>
-                <h3 className="font-serif text-2xl text-slate-900">
-                  {skillCategory.category}
-                </h3>
-                <ul className="mt-5 space-y-3">
-                  {skillCategory.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400" />
-                      <span className="text-sm leading-7 text-slate-600">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="contact"
-          className={`${sectionClass} mx-auto mt-20 max-w-7xl px-4 sm:mt-24 sm:px-6 lg:px-8`}
-        >
-          <div className="mx-auto max-w-3xl">
-            <div className={`${cardClass} p-8`}>
-              <p className="text-sm font-semibold uppercase tracking-[0.26em] text-slate-500">
-                Contact
-              </p>
-              <div className="mt-6 space-y-5">
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">Email</p>
-                  <a
-                    href="mailto:hjh5842@kau.kr"
-                    className="mt-2 inline-block text-base font-medium text-slate-900 hover:text-slate-600"
-                  >
-                    hjh5842@kau.kr
-                  </a>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">Affiliation</p>
-                  <p className="mt-2 text-base leading-7 text-slate-700">
-                    Korea Aerospace University, Department of Artificial
-                    Intelligence
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-  )
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [dark, setDark] = useState(false)
+  useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light' }, [dark])
+  useEffect(() => { const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('is-visible') }), { threshold: 0.1 }); document.querySelectorAll('.reveal').forEach((element) => observer.observe(element)); return () => observer.disconnect() }, [])
+  const orderedProjects = [projects[1], projects[2], projects[0]]
+  return <div className="site-shell">
+    <header className="site-header"><a className="brand" href="#top" aria-label="Juhyeon Han home"><span>JH</span><b>JUHYEON HAN</b></a><nav className={menuOpen ? 'nav-open' : ''} aria-label="Primary navigation">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}</nav><div className="header-actions"><button className="theme-toggle" onClick={() => setDark(!dark)} aria-label={`Switch to ${dark ? 'light' : 'dark'} theme`}>{dark ? '☼' : '◐'}</button><span className="resume-missing" title="Resume file is not included in the repository">Resume <small>FILE NEEDED</small></span><button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? '×' : '☰'}</button></div></header>
+    <main id="top">
+      <section className="hero" id="about"><div className="hero-copy reveal is-visible"><h1 className="portfolio-name"><span>Juhyeon</span><span>Han</span></h1><h2 className="hero-role">AI Engineer & Researcher</h2><div className="hero-contact"><a href="mailto:hjh5842@kau.kr"><span>EMAIL</span>hjh5842@kau.kr</a><a href="tel:+821089372753"><span>PHONE</span>010-8937-2753</a></div><div className="identity-facts"><span><b>KAU</b> 인공지능학과 석사과정</span><span><b>ETRI</b> Visual Intelligence Lab 인턴 경험</span><span><b>BASED IN</b> Seoul, Korea</span></div><div className="hero-actions"><a className="button-primary" href="#projects">프로젝트 보기 <Arrow /></a></div><div className="hero-stack"><span>INTERESTS</span><p>VLM · Legal LLM · RAG · FastAPI · PyTorch · Evaluation</p></div></div><HeroVisuals /><div className="scroll-cue">SCROLL TO EXPLORE <span>↓</span></div></section>
+      <section id="projects" className="section-wrap"><SectionHeading index="01" eyebrow="Selected engineering work" title="Web experiences powered by serious AI engineering." copy="Start with the product-facing work, then go deeper into the models, retrieval pipelines, multimodal research, and evaluation behind it." /><ProjectOverview orderedProjects={orderedProjects} /><div className="projects-list">{orderedProjects.map((project, index) => <ProjectCard key={project.id} project={project} index={index} />)}</div></section>
+      <section id="publications" className="section-wrap publications-section"><SectionHeading index="02" eyebrow="Publications · 08" title="Published research in multimodal AI and remote sensing." copy="Eight publications spanning vision-language models, Korean scene-text recognition, SAR object detection, and energy-efficient AI." />{publications.map((group) => <div className="publication-group reveal" key={group.category}><div className="publication-category"><h3>{group.category}</h3><span>{String(group.items.length).padStart(2, '0')} PUBLICATIONS</span></div><div>{group.items.map((paper, index) => <article className="publication-row" key={paper.title}><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><div><p><b>PUBLICATION</b> · {paper.venue} · {paper.year}</p><h4>{paper.title}</h4><div className="paper-tags">{paper.keywords.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div></div>{paper.link !== '#' && group.showLinks !== false ? <a href={paper.link} target="_blank" rel="noreferrer" aria-label={`View paper: ${paper.title}`} title="View paper"><Arrow diagonal /></a> : <span className="publication-status">PUBLISHED</span>}</article>)}</div></div>)}</section>
+      <section id="skills" className="section-wrap capabilities-section"><SectionHeading index="03" eyebrow="Engineering capabilities" title="From experiments to usable AI applications." copy="Every capability below is grounded in the projects and implementation evidence currently included in this repository." /><div className="capability-grid">{skills.map((skill, index) => <article className="capability-card reveal" key={skill.category}><span>0{index + 1}</span><h3>{skill.category}</h3><ul>{skill.items.map((item) => <li key={item}>{item}</li>)}</ul><p>{index === 0 ? 'VLM + Legal AI' : index === 1 ? 'Research pipelines' : index === 2 ? 'Legal AI + CatchPlan' : 'SAR research'}</p></article>)}</div><p className="evidence-note reveal"><b>Evidence note</b> Infrastructure technologies not documented in the source repository—vLLM, LiteLLM, Docker, AWS, n8n, Jira, and Confluence—have intentionally not been presented as experience.</p></section>
+      <section id="awards" className="section-wrap awards-section"><SectionHeading index="04" eyebrow="Awards & recognition" title="Ideas recognized through execution." /><div className="award-grid">{awards.map((award, index) => <article className="award-card reveal" key={award.event}><div><span>{award.year}</span><b>0{index + 1}</b></div><p>GRAND PRIZE</p><h3>{award.event}</h3><small>{award.organization}</small>{award.linkHref && <a href={award.linkHref} target="_blank" rel="noreferrer">View evidence <Arrow diagonal /></a>}</article>)}</div></section>
+    </main>
+    <footer><div className="brand"><span>JH</span><b>JUHYEON HAN</b></div><p>AI ENGINEER & RESEARCHER · SEOUL</p><a href="#top">BACK TO TOP ↑</a></footer>
+  </div>
 }
 
 export default App
