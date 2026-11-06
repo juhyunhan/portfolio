@@ -30,7 +30,7 @@ const projectPresentation: Record<string, { title: string; domain: string; summa
     flow: ['판례 PDF 정리', '임베딩·검색', 'QLoRA LLM', 'FastAPI 스트리밍'],
   },
   'event-rag-chatbot': {
-    title: 'CatchPlan 행사 추천 챗봇',
+    title: 'CatchPlan',
     domain: '출시 모바일 서비스',
     summary: '전국 행사 탐색·일정 관리·대화형 추천을 결합해 출시한 모바일 앱',
     why: '여러 곳에 흩어진 행사 정보와 일정·취향 기반 탐색의 불편',
