@@ -178,9 +178,11 @@
 
 /* Compact first viewport and strengthen the three identity facts */
 .hero{min-height:auto;align-items:start;padding-top:125px;padding-bottom:90px}
-.hero-copy{padding-top:24px}
+.hero-copy{padding-top:24px;text-align:center}
+.hero h1.portfolio-name{justify-content:center}
+.hero-contact,.hero-actions{justify-content:center}
 .identity-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:760px;margin-top:30px}
-.identity-facts span{min-height:56px;padding:14px 16px;font-size:13px;justify-content:flex-start}
+.identity-facts span{min-height:56px;padding:14px 16px;font-size:13px;justify-content:center;text-align:center}
 .identity-facts b{font-size:11px}
 
 @media(max-width:1000px){
