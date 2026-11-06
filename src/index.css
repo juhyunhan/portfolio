@@ -78,11 +78,17 @@
 .capability-card li:before{content:none}
 .project-media.single-media{min-height:420px}
 .media-label{font-size:9px}
+.project-narrative{display:grid;grid-template-columns:.9fr 1.35fr;gap:clamp(40px,7vw,100px);padding:10px 0 46px;border-bottom:1px solid var(--line)}
+.narrative-lead{margin:0;font-size:clamp(21px,2vw,29px);font-weight:600;line-height:1.55;letter-spacing:-.035em;word-break:keep-all;color:var(--ink)}
+.narrative-body{display:grid;gap:18px}
+.narrative-body p{margin:0;font-size:16px;line-height:1.85;color:var(--muted);word-break:keep-all}
+.narrative-body .narrative-result{padding-left:18px;border-left:2px solid var(--blue);color:var(--ink);font-weight:600}
 
 @media(max-width:1000px){
   .capability-grid{grid-template-columns:1fr}
   .capability-card{grid-template-columns:40px 230px 1fr}
   .pipeline{grid-template-columns:repeat(2,1fr)}
+  .project-narrative{grid-template-columns:1fr;gap:25px}
 }
 @media(max-width:640px){
   .hero-kicker{font-size:9px;line-height:1.5}

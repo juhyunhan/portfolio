@@ -55,13 +55,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     <div className="project-copy"><div className="project-number">0{index + 1} <span>/ 프로젝트 사례</span></div><p className="project-domain">{presentation.domain}</p><h3>{presentation.title}</h3>{project.subtitle && <p className="project-affiliation">{project.subtitle}</p>}<p className="project-summary">{presentation.summary}</p><div className="tag-label">핵심 기술</div><div className="tag-row">{project.keywords.slice(0, 4).map((item) => <Tag key={item}>{item}</Tag>)}</div></div>
     <div className="project-media single-media"><img className="project-image-main" src={image.src} alt={image.label} loading="lazy" /><span className="media-label">프로젝트 이미지 · 0{index + 1}</span></div>
     <div className="case-study always-visible">
-      <div className="project-story">
-        <article><span>01</span><h4>문제</h4><p>{presentation.why}</p></article>
-        <article><span>02</span><h4>결과물</h4><p>{presentation.what}</p></article>
-        <article><span>03</span><h4>구현</h4><p>{presentation.how}</p></article>
-        <article><span>04</span><h4>성과</h4><p>{presentation.result}</p></article>
+      <div className="project-narrative">
+        <p className="narrative-lead">{presentation.what}</p>
+        <div className="narrative-body"><p>{presentation.why}</p><p>{presentation.how}</p><p className="narrative-result">{presentation.result}</p></div>
       </div>
-      <div className="project-overview-copy"><span>프로젝트 설명</span><p>{project.description}</p></div>
       {project.pipeline && <div className="architecture"><span>구현 흐름</span><div className="pipeline" aria-label="구현 흐름">{project.pipeline.map((step, stepIndex) => <div key={step}><b>{String(stepIndex + 1).padStart(2, '0')}</b><span>{step}</span></div>)}</div></div>}
       <div className="case-grid implementation-grid">{project.detailBlocks.map((block) => <div key={block.title}><span>{block.title}</span><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></div>)}</div>
       <div className="case-links">{project.externalLinks?.map((link) => <a key={link.href} href={link.href} target={link.download ? undefined : '_blank'} rel="noreferrer">{link.label} <Arrow diagonal /></a>)}{project.relatedPublications?.map((paper) => <a key={paper.title} href={paper.link} target="_blank" rel="noreferrer">{paper.venue} {paper.year} PDF <Arrow diagonal /></a>)}</div>
