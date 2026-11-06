@@ -78,17 +78,24 @@
 .capability-card li:before{content:none}
 .project-media.single-media{min-height:420px}
 .media-label{font-size:9px}
-.project-narrative{display:grid;grid-template-columns:.9fr 1.35fr;gap:clamp(40px,7vw,100px);padding:10px 0 46px;border-bottom:1px solid var(--line)}
+.case-study.always-visible{padding:clamp(28px,3.2vw,46px)}
+.project-narrative{display:block;max-width:940px;padding:0 0 30px;border-bottom:1px solid var(--line)}
 .narrative-lead{margin:0;font-size:clamp(19px,1.65vw,24px);font-weight:500;line-height:1.6;letter-spacing:-.025em;word-break:keep-all;color:var(--ink)}
-.narrative-body{display:grid;gap:18px}
-.narrative-body p{margin:0;font-size:16px;line-height:1.85;color:var(--muted);word-break:keep-all}
-.narrative-body .narrative-result{padding-left:18px;border-left:2px solid var(--blue);color:var(--ink);font-weight:500}
+.narrative-body{display:block;margin-top:18px}
+.narrative-body p{margin:0 0 12px;font-size:16px;line-height:1.75;color:var(--muted);word-break:keep-all}
+.narrative-body .narrative-result{margin-bottom:0;color:var(--ink);font-weight:500}
+.architecture{margin-top:30px}
+.flow-line{display:flex;align-items:center;gap:16px;margin-top:16px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.flow-line div{display:flex;align-items:center;gap:16px;min-width:0}
+.flow-line span{font-size:15px;line-height:1.5;color:var(--ink);white-space:nowrap}
+.flow-line i{font-style:normal;color:var(--blue);font-size:15px}
+.implementation-grid{margin-top:30px}
+.implementation-grid>div{padding:22px}
 
 @media(max-width:1000px){
   .capability-grid{grid-template-columns:1fr}
   .capability-card{grid-template-columns:40px 230px 1fr}
   .pipeline{grid-template-columns:repeat(2,1fr)}
-  .project-narrative{grid-template-columns:1fr;gap:25px}
 }
 @media(max-width:640px){
   .hero-kicker{font-size:9px;line-height:1.5}
@@ -102,4 +109,69 @@
   .capability-card{grid-template-columns:32px 1fr;padding:22px}
   .capability-card ul{grid-column:2;margin-top:18px;font-size:12px}
   .project-media.single-media{min-height:280px}
+}
+
+/* Responsive readability: enlarge only the undersized metadata and tighten dense cards */
+.hero-kicker{font-size:clamp(11px,.75vw,13px);line-height:1.5}
+.identity-facts span{font-size:12px;line-height:1.45}
+.identity-facts b{font-size:10px}
+.hero-contact a{font-size:15px}
+.hero-contact span{font-size:10px}
+.product-bar b,.hero-product figcaption div,.hero-product figcaption p{font-size:10px}
+.section-kicker{font-size:clamp(11px,.75vw,13px);line-height:1.5}
+.project-number{font-size:13px}
+.project-number span{font-size:11px}
+.project-domain{font-size:12px;line-height:1.5}
+.project-affiliation{font-size:13px;line-height:1.65}
+.tag-label{font-size:13px}
+.tag{font-size:11px;line-height:1.35}
+.media-label{font-size:10px}
+.project-story article>span,.project-overview-copy>span,.architecture>span,.implementation-grid>div>span{font-size:11px;line-height:1.5}
+.publication-category span{font-size:11px}
+.paper-index{font-size:11px}
+.publication-row p{font-size:11px;line-height:1.5}
+.publication-row p b{font-size:9px}
+.paper-tags span{font-size:9px;line-height:1.35}
+.publication-status{font-size:9px}
+.capability-card>span{font-size:12px}
+.award-card{min-height:240px;padding:28px}
+.award-card>div span,.award-card>div b{font-size:11px}
+.award-card>p{margin-top:30px;font-size:11px}
+.award-card h3{font-size:23px}
+.award-card small{font-size:13px;line-height:1.5}
+.award-card a{font-size:12px}
+
+@media(max-width:1200px){
+  .section-wrap{padding:105px clamp(28px,5vw,72px)}
+  .section-heading{margin-bottom:58px}
+  .project-copy{padding:clamp(30px,3.5vw,52px)}
+}
+@media(max-width:1000px){
+  .section-wrap{padding:90px 32px}
+  .award-card{min-height:210px;padding:25px 28px}
+  .award-card>p{margin-top:22px}
+}
+@media(max-width:640px){
+  .section-wrap{padding:72px 18px}
+  .section-heading{margin-bottom:34px}
+  .hero-kicker,.section-kicker{font-size:10px}
+  .identity-facts span{font-size:11px}
+  .hero-contact a{font-size:14px}
+  .project-number{font-size:12px}
+  .project-number span,.project-domain{font-size:10px}
+  .project-affiliation{font-size:12px}
+  .tag{font-size:10px}
+  .publication-row p{font-size:10px}
+  .award-card{min-height:0;padding:22px}
+  .award-card>p{margin-top:18px}
+  .award-card h3{font-size:21px}
+  .case-study.always-visible{padding:24px 18px}
+  .project-narrative{padding-bottom:24px}
+  .flow-line{align-items:flex-start;flex-direction:column;gap:8px;padding:15px 0}
+  .flow-line div{width:100%;justify-content:space-between;gap:12px}
+  .flow-line div:last-child i{display:none}
+  .flow-line span{font-size:14px;white-space:normal}
+  .flow-line i{transform:rotate(90deg)}
+  .implementation-grid{margin-top:24px}
+  .implementation-grid>div{padding:18px}
 }

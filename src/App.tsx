@@ -18,7 +18,7 @@ function HeroVisuals() {
   </div>
 }
 
-const projectPresentation: Record<string, { title: string; domain: string; summary: string; why: string; what: string; how: string; result: string }> = {
+const projectPresentation: Record<string, { title: string; domain: string; summary: string; why: string; what: string; how: string; result: string; flow: string[] }> = {
   'legal-qlora-rag': {
     title: '법률 LLM·RAG 질의응답 시스템',
     domain: '법률 AI 웹 서비스',
@@ -27,6 +27,7 @@ const projectPresentation: Record<string, { title: string; domain: string; summa
     what: '판례 검색·요약·근거 기반 질의응답 웹 애플리케이션',
     how: 'PDF를 섹션별로 나누고 메타데이터와 임베딩을 저장했습니다. 검색 결과를 QLoRA로 학습한 LLM에 전달하고 FastAPI로 응답을 스트리밍했습니다.',
     result: '서비스 프로토타입을 완성하고 2024 AI Business Hackathon 대상을 수상했습니다.',
+    flow: ['판례 PDF 정리', '임베딩·검색', 'QLoRA LLM', 'FastAPI 스트리밍'],
   },
   'event-rag-chatbot': {
     title: 'CatchPlan 행사 추천 챗봇',
@@ -36,6 +37,7 @@ const projectPresentation: Record<string, { title: string; domain: string; summa
     what: '행사 탐색·캘린더·대화형 추천을 결합한 모바일 앱 CatchPlan',
     how: 'AI 담당으로 행사 데이터를 임베딩해 Pinecone에 저장하고, RetrievalQA와 Agent를 구성해 FastAPI 스트리밍 API로 앱과 연결했습니다.',
     result: '모바일 앱을 실제 출시하고 산학프로젝트와 ICT 융합 프로젝트 경진대회에서 대상을 수상했습니다.',
+    flow: ['행사 데이터', 'Pinecone 검색', 'RAG Agent', '모바일 앱 연동'],
   },
   'vlm-scene-text': {
     title: 'VLM 기반 한국어 현수막 인식',
@@ -45,6 +47,7 @@ const projectPresentation: Record<string, { title: string; domain: string; summa
     what: 'Qwen2.5-VL-3B 기반 현수막 OCR·유형 분류 실험',
     how: '영역 검출과 왜곡 보정 후 VLM이 OCR과 분류 결과를 함께 출력하도록 구성하고, 데이터 조합별 성능과 오류를 분석했습니다.',
     result: 'ETRI 인턴 연구 결과를 AISP 2025와 ICCE-Asia 2025 논문 2편으로 발표했습니다.',
+    flow: ['현수막 전처리', 'VLM Fine-tuning', 'OCR·유형 분류', '오류 분석'],
   },
 }
 
@@ -59,7 +62,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <p className="narrative-lead">{presentation.what}</p>
         <div className="narrative-body"><p>{presentation.why}</p><p>{presentation.how}</p><p className="narrative-result">{presentation.result}</p></div>
       </div>
-      {project.pipeline && <div className="architecture"><span>구현 흐름</span><div className="pipeline" aria-label="구현 흐름">{project.pipeline.map((step, stepIndex) => <div key={step}><b>{String(stepIndex + 1).padStart(2, '0')}</b><span>{step}</span></div>)}</div></div>}
+      <div className="architecture"><span>구현 흐름</span><div className="flow-line" aria-label="구현 흐름">{presentation.flow.map((step, stepIndex) => <div key={step}><span>{step}</span>{stepIndex < presentation.flow.length - 1 && <i aria-hidden="true">→</i>}</div>)}</div></div>
       <div className="case-grid implementation-grid">{project.detailBlocks.map((block) => <div key={block.title}><span>{block.title}</span><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></div>)}</div>
       <div className="case-links">{project.externalLinks?.map((link) => <a key={link.href} href={link.href} target={link.download ? undefined : '_blank'} rel="noreferrer">{link.label} <Arrow diagonal /></a>)}{project.relatedPublications?.map((paper) => <a key={paper.title} href={paper.link} target="_blank" rel="noreferrer">{paper.venue} {paper.year} PDF <Arrow diagonal /></a>)}</div>
     </div>
