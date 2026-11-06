@@ -53,6 +53,11 @@
 
 /* Feedback revision: clearer identity, larger copy, fewer repeated visuals */
 .hero-kicker{margin:0 0 18px;font:600 11px DM Mono;color:var(--blue);letter-spacing:.1em}
+.hero-stats{display:flex;align-items:stretch;margin:34px 0 26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hero-stats span{display:flex;align-items:baseline;gap:10px;flex:1;padding:22px 20px;border-right:1px solid var(--line);font-size:13px;color:var(--muted)}
+.hero-stats span:first-child{padding-left:0}
+.hero-stats span:last-child{border-right:0}
+.hero-stats b{font-size:28px;line-height:1;color:var(--ink);letter-spacing:-.04em}
 .hero-role{margin:24px 0 18px;font-size:clamp(25px,2.6vw,40px);line-height:1.25;color:var(--blue);letter-spacing:-.035em}
 .hero-intro{max-width:650px;margin:0;color:var(--muted);font-size:17px;line-height:1.8;word-break:keep-all}
 .hero-contact{margin:25px 0 0}
@@ -87,6 +92,10 @@
 @media(max-width:640px){
   .hero-kicker{font-size:9px;line-height:1.5}
   .hero-intro{font-size:16px}
+  .hero-stats{margin-top:28px}
+  .hero-stats span{display:grid;gap:7px;padding:18px 12px;font-size:11px}
+  .hero-stats span:first-child{padding-left:0}
+  .hero-stats b{font-size:24px}
   .section-heading p{font-size:16px}
   .project-summary,.project-overview-copy p{font-size:16px}
   .project-story p,.case-grid ul{font-size:14px}
