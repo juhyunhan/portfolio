@@ -50,3 +50,50 @@
 .case-study.always-visible{animation:none;background:var(--paper)}.project-story{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--line);gap:1px}.project-story article{background:var(--paper);padding:24px;min-height:215px}.project-story article>span,.project-overview-copy>span,.architecture>span{font:600 9px DM Mono;color:var(--blue);letter-spacing:.1em}.project-story h4{margin:18px 0 15px;font-size:clamp(21px,1.55vw,26px);font-weight:600;line-height:1.1;color:var(--ink);letter-spacing:-.04em}.project-story h4:after{content:"";display:block;width:24px;height:2px;margin-top:13px;background:var(--blue)}.project-story p{margin:0;font-size:13px;line-height:1.8;color:var(--muted);word-break:keep-all}.project-overview-copy{display:grid;grid-template-columns:1fr 3fr;gap:35px;margin-top:48px;padding-top:34px;border-top:1px solid var(--line)}.project-overview-copy p{margin:0;font-size:16px;line-height:1.9;color:var(--ink);word-break:keep-all}.architecture{margin-top:45px}.architecture .pipeline{margin:14px 0 0}.implementation-grid{grid-template-columns:1fr;margin-top:42px}.implementation-grid>div{border:1px solid var(--line);background:var(--surface);padding:26px}.implementation-grid ul{columns:2;column-gap:45px;margin:20px 0 0}.implementation-grid li{break-inside:avoid;margin-bottom:7px}.always-visible .case-links{padding-top:28px;border-top:1px solid var(--line)}.always-visible .case-links:empty{display:none}
 @media(max-width:1000px){.project-story{grid-template-columns:1fr 1fr}.project-story article{min-height:215px}.project-overview-copy{grid-template-columns:1fr}}
 @media(max-width:640px){.case-study.always-visible{padding:26px 18px}.project-story{grid-template-columns:1fr}.project-story article{min-height:0;padding:22px}.project-story h4{margin-top:20px}.project-overview-copy{margin-top:34px;padding-top:26px}.implementation-grid ul{columns:1}.architecture .pipeline{margin-top:12px}}
+
+/* Feedback revision: clearer identity, larger copy, fewer repeated visuals */
+.hero-kicker{margin:0 0 18px;font:600 11px DM Mono;color:var(--blue);letter-spacing:.1em}
+.hero-role{margin:24px 0 18px;font-size:clamp(25px,2.6vw,40px);line-height:1.25;color:var(--blue);letter-spacing:-.035em}
+.hero-intro{max-width:650px;margin:0;color:var(--muted);font-size:17px;line-height:1.8;word-break:keep-all}
+.hero-contact{margin:25px 0 0}
+.hero-actions{margin-top:28px}
+.section-heading h2{font-size:clamp(38px,4.3vw,62px)}
+.section-heading p{font-size:18px;word-break:keep-all}
+.project-summary{font-size:17px;line-height:1.8;word-break:keep-all}
+.tag-label{margin:28px 0 10px;font-size:12px;font-weight:700;color:var(--ink)}
+.tag{padding:8px 10px;font-size:10px;text-transform:none}
+.project-story p{font-size:15px}
+.project-overview-copy p{font-size:17px}
+.case-grid ul{padding-left:20px;font-size:15px;line-height:1.85}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;gap:1px;background:var(--line);border:1px solid var(--line)}
+.pipeline div{min-width:0;padding:20px;background:var(--paper);border:0}
+.pipeline b{font-size:10px}
+.pipeline span{font-size:14px;line-height:1.55;word-break:keep-all}
+.capability-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.capability-card{min-height:0;padding:30px;display:grid;grid-template-columns:40px minmax(150px,210px) 1fr;align-items:start;border:0;background:var(--paper)}
+.capability-card>span{font-size:11px}
+.capability-card h3{margin:0;padding-right:22px;font-size:19px;line-height:1.4}
+.capability-card ul{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none;font-size:13px;line-height:1.4}
+.capability-card li{padding:7px 9px;border:1px solid var(--line);background:var(--surface)}
+.capability-card li:before{content:none}
+.project-media.single-media{min-height:420px}
+.media-label{font-size:9px}
+
+@media(max-width:1000px){
+  .capability-grid{grid-template-columns:1fr}
+  .capability-card{grid-template-columns:40px 230px 1fr}
+  .pipeline{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hero-kicker{font-size:9px;line-height:1.5}
+  .hero-intro{font-size:16px}
+  .section-heading p{font-size:16px}
+  .project-summary,.project-overview-copy p{font-size:16px}
+  .project-story p,.case-grid ul{font-size:14px}
+  .pipeline{grid-template-columns:1fr 1fr}
+  .pipeline div{padding:16px}
+  .pipeline span{font-size:13px}
+  .capability-card{grid-template-columns:32px 1fr;padding:22px}
+  .capability-card ul{grid-column:2;margin-top:18px;font-size:12px}
+  .project-media.single-media{min-height:280px}
+}

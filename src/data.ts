@@ -89,11 +89,11 @@ export const publicAsset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
 export const navItems: NavItem[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Publications', href: '#publications' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Awards', href: '#awards' },
+  { label: '소개', href: '#about' },
+  { label: '프로젝트', href: '#projects' },
+  { label: '논문', href: '#publications' },
+  { label: '기술', href: '#skills' },
+  { label: '수상', href: '#awards' },
 ]
 
 export const heroKeywords = [
@@ -111,12 +111,12 @@ export const projects: Project[] = [
   {
     id: 'vlm-scene-text',
     title: 'VLM 기반 한국어 현수막 OCR 및 유형 분류 성능 분석',
-    subtitle: 'ETRI Visual Intelligence Lab Intern',
+    subtitle: 'ETRI Visual Intelligence Lab 인턴 · VLM 실험 및 평가 담당',
     description:
       '한국어 현수막 이미지의 OCR 및 유형 분류 성능을 분석하기 위해 여러 VLM 후보 모델을 비교하고, Qwen2.5-VL-3B-Instruct를 기반으로 fine-tuning, structured prompt 설계, benchmark evaluation을 수행했습니다.',
     detailBlocks: [
       {
-        title: 'My Role',
+        title: '담당 역할',
         layout: 'grid',
         items: [
           'VLM 후보 모델 비교 및 최종 모델 선정',
@@ -129,13 +129,13 @@ export const projects: Project[] = [
       },
     ],
     pipeline: [
-      'Banner Image',
-      'Detection',
-      'Segmentation / Warping',
-      'Structured Prompt',
-      'Qwen2.5-VL-3B Inference / Fine-tuned Checkpoint',
-      'OCR Output & Type Classification',
-      'Error Analysis',
+      '현수막 이미지',
+      '영역 검출',
+      '분할·왜곡 보정',
+      '구조화 프롬프트',
+      'VLM 추론·Fine-tuning',
+      'OCR·유형 분류',
+      '오류 분석',
     ],
     images: [
       {
@@ -185,11 +185,12 @@ export const projects: Project[] = [
   {
     id: 'legal-qlora-rag',
     title: 'QLoRA 기반 법률 LLM Fine-tuning 및 RetrievalQA 시스템',
+    subtitle: '팀 프로젝트 · AI 모델 및 백엔드 파이프라인 담당',
     description:
       '법률 판례 PDF를 섹션 단위로 구조화하고 임베딩 기반 지식베이스를 구축한 뒤, QLoRA fine-tuning과 RetrievalQA pipeline을 결합하여 법률 문서 요약 및 질의응답 시스템을 개발했습니다. 사용자의 질문에 대해 관련 판례를 검색하고, 검색된 context를 바탕으로 LLM이 답변을 생성하도록 구성했습니다.',
     detailBlocks: [
       {
-        title: '구성 요소',
+        title: '담당 역할',
         layout: 'list',
         items: [
           '법률 판례 PDF 텍스트 추출 및 전처리',
@@ -203,14 +204,14 @@ export const projects: Project[] = [
       },
     ],
     pipeline: [
-      'Legal PDF',
-      'Text Extraction',
-      'Section-based Preprocessing',
-      'Metadata Extraction',
-      'Embedding / Vector DB',
-      'RetrievalQA',
-      'QLoRA-tuned LLM',
-      'FastAPI Streaming Response',
+      '판례 PDF',
+      '텍스트 추출',
+      '섹션 전처리',
+      '메타데이터 추출',
+      '임베딩·Vector DB',
+      '관련 문서 검색',
+      'QLoRA LLM',
+      'FastAPI 스트리밍',
     ],
     images: [
       {
@@ -262,11 +263,12 @@ export const projects: Project[] = [
   {
     id: 'event-rag-chatbot',
     title: 'LangChain 기반 행사 추천 RAG 챗봇 및 Conversational Agent',
+    subtitle: '5인 팀 · AI 담당 · 모바일 앱 출시',
     description:
       'CatchPlan은 행사 탐색과 추천을 제공하는 모바일 앱으로, 실제 앱 출시까지 진행했습니다. 행사 정보 CSV를 Document Loader로 처리하고 VectorStore에 저장한 뒤, RetrievalQA와 ConversationBufferWindowMemory를 결합해 사용자 질문에 맞는 행사 정보를 검색·추천하는 LangChain 기반 RAG 챗봇을 구현했습니다.',
     detailBlocks: [
       {
-        title: '주요 구현',
+        title: '담당 역할',
         layout: 'list',
         items: [
           'CatchPlan 모바일 애플리케이션 실제 출시',
@@ -283,14 +285,14 @@ export const projects: Project[] = [
       },
     ],
     pipeline: [
-      'Event CSV',
-      'Document Loader',
-      'Text Splitter',
-      'Embedding',
+      '행사 CSV',
+      '문서 로딩',
+      '텍스트 분할',
+      '임베딩',
       'Pinecone VectorStore',
-      'Retriever',
-      'RetrievalQA / Agent',
-      'Streaming Response',
+      '관련 행사 검색',
+      'RAG Agent',
+      '스트리밍 응답',
     ],
     images: [
       {
@@ -341,7 +343,7 @@ export const projects: Project[] = [
 
 export const publications: PublicationGroup[] = [
   {
-    category: 'VLM / Multimodal Learning',
+    category: 'VLM · 멀티모달 학습',
     showLinks: true,
     items: [
       {
@@ -363,7 +365,7 @@ export const publications: PublicationGroup[] = [
     ],
   },
   {
-    category: 'Computer Vision / Remote Sensing',
+    category: '컴퓨터 비전 · 원격탐사',
     showLinks: false,
     items: [
       {
@@ -417,25 +419,25 @@ export const publications: PublicationGroup[] = [
 
 export const awards: Award[] = [
   {
-    title: 'Grand Prize',
-    event: 'AI Business Hackathon',
-    organization: 'Korea Aerospace University',
+    title: '대상',
+    event: 'AI 비즈니스 해커톤',
+    organization: '한국항공대학교',
     year: '2024',
     relatedProject: 'QLoRA 기반 법률 LLM Fine-tuning 및 RetrievalQA 시스템',
   },
   {
-    title: 'Grand Prize',
-    event: 'Industry-Academia Project - CatchPlan App Launch',
-    organization: 'Korea Aerospace University',
+    title: '대상',
+    event: '산학프로젝트 — CatchPlan 앱 출시',
+    organization: '한국항공대학교',
     year: '2023',
     relatedProject: 'LangChain 기반 행사 추천 RAG 챗봇 및 Conversational Agent',
     linkLabel: 'CatchPlan Android GitHub',
     linkHref: 'https://github.com/VeritasKau/CatchPlan-Android',
   },
   {
-    title: 'Grand Prize',
-    event: '2023 ICT Convergence Project Competition',
-    organization: 'Korea Aerospace University',
+    title: '대상',
+    event: '2023 ICT 융합 프로젝트 경진대회',
+    organization: '한국항공대학교',
     year: '2023',
     relatedProject: 'LangChain 기반 행사 추천 RAG 챗봇 및 Conversational Agent',
     linkLabel: 'PDF 다운로드',
@@ -445,7 +447,7 @@ export const awards: Award[] = [
 
 export const skills: SkillCategory[] = [
   {
-    category: 'LLM & Multimodal AI',
+    category: 'LLM · 멀티모달 AI',
     items: [
       'HuggingFace Transformers',
       'LoRA / QLoRA fine-tuning',
@@ -456,11 +458,11 @@ export const skills: SkillCategory[] = [
     ],
   },
   {
-    category: 'AI Backend & Applications',
+    category: 'AI 백엔드 · 애플리케이션',
     items: ['FastAPI', 'REST API', 'Streaming Response', 'RetrievalQA', 'Conversational Agent'],
   },
   {
-    category: 'Data & Research Pipelines',
+    category: '데이터 · 연구 파이프라인',
     items: [
       'PyTorch',
       'TensorFlow',
@@ -470,7 +472,7 @@ export const skills: SkillCategory[] = [
     ],
   },
   {
-    category: 'Evaluation & Vision',
+    category: '평가 · 컴퓨터 비전',
     items: ['Model Evaluation', 'Error Analysis', 'Object Detection', 'OpenCV', 'SAR image processing'],
   },
 ]
