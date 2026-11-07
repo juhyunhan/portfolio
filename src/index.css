@@ -83,6 +83,7 @@
 .narrative-lead{margin:0;font-size:clamp(19px,1.65vw,24px);font-weight:500;line-height:1.6;letter-spacing:-.025em;word-break:keep-all;color:var(--ink)}
 .narrative-body{display:block;margin-top:18px}
 .narrative-body p{margin:0 0 12px;font-size:16px;line-height:1.75;color:var(--muted);word-break:keep-all}
+.sentence-line{display:block}
 .narrative-body .narrative-result{margin-bottom:0;color:var(--ink);font-weight:500}
 .architecture{margin-top:30px}
 .flow-line{display:flex;align-items:center;gap:16px;margin-top:16px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}

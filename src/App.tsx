@@ -3,6 +3,7 @@ import { awards, navItems, projects, publicAsset, publications, skills, type Pro
 
 const Arrow = ({ diagonal = false }: { diagonal?: boolean }) => <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>
 const Tag = ({ children }: { children: string }) => <span className="tag">{children}</span>
+const SentenceLines = ({ text }: { text: string }) => <>{text.split('. ').map((sentence, index, sentences) => <span className="sentence-line" key={`${sentence}-${index}`}>{sentence}{index < sentences.length - 1 ? '.' : ''}</span>)}</>
 
 function SectionHeading({ index, eyebrow, title, copy }: { index: string; eyebrow: string; title: string; copy?: string }) {
   return <div className="section-heading reveal"><div className="section-kicker"><span>{index}</span>{eyebrow}</div><div><h2>{title}</h2>{copy && <p>{copy}</p>}</div></div>
@@ -60,7 +61,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     <div className="case-study always-visible">
       <div className="project-narrative">
         <p className="narrative-lead">{presentation.what}</p>
-        <div className="narrative-body"><p>{presentation.why}</p><p>{presentation.how}</p><p className="narrative-result">{presentation.result}</p></div>
+        <div className="narrative-body"><p><SentenceLines text={presentation.why} /></p><p><SentenceLines text={presentation.how} /></p><p className="narrative-result"><SentenceLines text={presentation.result} /></p></div>
       </div>
       <div className="architecture"><span>구현 흐름</span><div className="flow-line" aria-label="구현 흐름">{presentation.flow.map((step, stepIndex) => <div key={step}><span>{step}</span>{stepIndex < presentation.flow.length - 1 && <i aria-hidden="true">→</i>}</div>)}</div></div>
       <div className="case-grid implementation-grid">{project.detailBlocks.map((block) => <div key={block.title}><span>{block.title}</span><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></div>)}</div>
