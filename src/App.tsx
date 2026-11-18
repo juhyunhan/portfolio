@@ -1,91 +1,129 @@
 import { useEffect, useState } from 'react'
-import { awards, navItems, projects, publicAsset, publications, skills, type Project } from './data'
+import { awards, projects, publicAsset, publications, skills } from './data'
 
-const Arrow = ({ diagonal = false }: { diagonal?: boolean }) => <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>
-const Tag = ({ children }: { children: string }) => <span className="tag">{children}</span>
-const SentenceLines = ({ text }: { text: string }) => <>{text.split('. ').map((sentence, index, sentences) => <span className="sentence-line" key={`${sentence}-${index}`}>{sentence}{index < sentences.length - 1 ? '.' : ''}</span>)}</>
+const Arrow = () => <span aria-hidden="true">↗</span>
 
-function SectionHeading({ index, eyebrow, title, copy }: { index: string; eyebrow: string; title: string; copy?: string }) {
-  return <div className="section-heading reveal"><div className="section-kicker"><span>{index}</span>{eyebrow}</div><div><h2>{title}</h2>{copy && <p>{copy}</p>}</div></div>
-}
+const researchNav = [
+  { label: '연구', href: '#research' },
+  { label: '논문', href: '#publications' },
+  { label: '경험', href: '#experience' },
+  { label: '프로젝트', href: '#projects' },
+  { label: '수상', href: '#awards' },
+]
 
-function HeroVisuals() {
-  return <div className="hero-visual" aria-label="법률 AI 웹 애플리케이션">
-    <figure className="hero-product">
-      <div className="product-bar"><span /><span /><span /><b>LEGAL AI · DOCUMENT INTELLIGENCE</b></div>
-      <img src={publicAsset('images/legal-ai-app-overview.jpg')} alt="Legal AI document intelligence web application" />
-      <figcaption><div><i />대표 프로젝트</div><p>법률 LLM · RAG · FastAPI</p></figcaption>
-    </figure>
-  </div>
-}
-
-const projectPresentation: Record<string, { title: string; domain: string; summary: string; why: string; what: string; how: string; result: string; flow: string[] }> = {
-  'legal-qlora-rag': {
-    title: '법률 LLM·RAG 질의응답 시스템',
-    domain: '법률 AI 웹 서비스',
-    summary: '판례 PDF 구조화와 근거 검색을 결합한 법률 AI 웹 서비스',
-    why: '판례가 길어질수록 필요한 사실관계와 판단 근거를 찾는 데 시간이 오래 걸립니다.',
-    what: '판례 검색·요약·근거 기반 질의응답 웹 애플리케이션',
-    how: '판례를 사실관계, 법률적 판단, 판결로 나눠 검색할 수 있게 만들었습니다. 관련 근거를 찾으면 QLoRA로 학습한 모델이 답변하고, FastAPI가 결과를 실시간으로 전달합니다.',
-    result: '서비스 프로토타입 완성 · 2024 AI Business Hackathon 대상',
-    flow: ['판례 PDF 정리', '임베딩·검색', 'QLoRA LLM', 'FastAPI 스트리밍'],
+const focusAreas = [
+  {
+    index: '01',
+    title: 'Vision-Language Models',
+    korean: '한국어 장면문자 인식',
+    description: '현수막 영역 검출과 왜곡 보정, 데이터 구성, CoT 추론이 VLM의 OCR·유형 분류 성능에 미치는 영향을 분석했습니다.',
+    tags: ['Qwen2.5-VL', 'Scene Text', 'CoT', 'Fine-tuning'],
+    output: 'AISP 2025 · ICCE-Asia 2025',
+    image: publicAsset('images/etri-banner-comparison.jpg'),
   },
-  'event-rag-chatbot': {
-    title: 'CatchPlan',
-    domain: '출시 모바일 서비스',
-    summary: '전국 행사 탐색·일정 관리·대화형 추천을 결합해 출시한 모바일 앱',
-    why: '여러 사이트에 흩어진 행사 정보를 한곳에서 찾고, 일정과 취향에 맞춰 추천받을 수 있게 했습니다.',
-    what: '행사 탐색·캘린더·대화형 추천을 결합한 모바일 앱 CatchPlan',
-    how: '행사 데이터를 Pinecone에 저장하고 RetrievalQA와 Agent가 관련 정보를 찾도록 구성했습니다. 추천 결과는 FastAPI를 통해 모바일 앱에 실시간으로 전달했습니다.',
-    result: '모바일 앱 출시 · 산학프로젝트 및 ICT 융합 프로젝트 경진대회 대상',
-    flow: ['행사 데이터', 'Pinecone 검색', 'RAG Agent', '모바일 앱 연동'],
+  {
+    index: '02',
+    title: 'Remote Sensing Vision',
+    korean: 'SAR 객체·선박 탐지',
+    description: '주파수 영역 특징 보정, 도메인 적응, 준지도 학습과 SNN을 활용한 SAR 객체 탐지 연구를 수행했습니다.',
+    tags: ['SAR', 'Object Detection', 'Domain Adaptation', 'SNN'],
+    output: 'IGARSS · ICASSP · IEEE GRSL',
   },
-  'vlm-scene-text': {
-    title: 'VLM 기반 한국어 현수막 인식',
-    domain: '멀티모달 AI 연구',
-    summary: '한국어 현수막 OCR과 유형 분류를 위한 VLM 학습·평가 연구',
-    why: '기울어진 현수막이나 복잡한 배경에서도 한국어 문구와 현수막 유형을 정확히 읽는 것이 목표였습니다.',
-    what: 'Qwen2.5-VL-3B 기반 현수막 OCR·유형 분류 실험',
-    how: '현수막 영역을 찾고 왜곡을 보정한 뒤, VLM이 문구 인식과 유형 분류를 함께 수행하도록 학습했습니다. 데이터 구성별 성능 차이와 오류 사례도 비교했습니다.',
-    result: 'AISP 2025 · ICCE-Asia 2025 논문 2편 발표',
-    flow: ['현수막 전처리', 'VLM Fine-tuning', 'OCR·유형 분류', '오류 분석'],
-  },
-}
+]
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const presentation = projectPresentation[project.id]
-  const image = project.id === 'legal-qlora-rag' && project.images[1] ? project.images[1] : project.images[0]
-  return <article id={project.id} className={`project-card reveal project-${index + 1}`}>
-    <div className="project-copy"><div className="project-number">0{index + 1} <span>/ 프로젝트 사례</span></div><p className="project-domain">{presentation.domain}</p><h3>{presentation.title}</h3>{project.subtitle && <p className="project-affiliation">{project.subtitle}</p>}<p className="project-summary">{presentation.summary}</p><div className="tag-label">핵심 기술</div><div className="tag-row">{project.keywords.slice(0, 4).map((item) => <Tag key={item}>{item}</Tag>)}</div></div>
-    <div className="project-media single-media"><img className="project-image-main" src={image.src} alt={image.label} loading="lazy" /><span className="media-label">프로젝트 이미지 · 0{index + 1}</span></div>
-    <div className="case-study always-visible">
-      <div className="project-narrative">
-        <p className="narrative-lead">{presentation.what}</p>
-        <div className="narrative-body"><p><SentenceLines text={presentation.why} /></p><p><SentenceLines text={presentation.how} /></p><p className="narrative-result"><SentenceLines text={presentation.result} /></p></div>
-      </div>
-      <div className="architecture"><span>구현 흐름</span><div className="flow-line" aria-label="구현 흐름">{presentation.flow.map((step, stepIndex) => <div key={step}><span>{step}</span>{stepIndex < presentation.flow.length - 1 && <i aria-hidden="true">→</i>}</div>)}</div></div>
-      <div className="case-grid implementation-grid">{project.detailBlocks.map((block) => <div key={block.title}><span>{block.title}</span><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></div>)}</div>
-      <div className="case-links">{project.externalLinks?.map((link) => <a key={link.href} href={link.href} target={link.download ? undefined : '_blank'} rel="noreferrer">{link.label} <Arrow diagonal /></a>)}{project.relatedPublications?.map((paper) => <a key={paper.title} href={paper.link} target="_blank" rel="noreferrer">{paper.venue} {paper.year} PDF <Arrow diagonal /></a>)}</div>
-    </div>
-  </article>
-}
+const appliedProjects = [projects[1], projects[2]]
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [dark, setDark] = useState(false)
+
   useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light' }, [dark])
-  useEffect(() => { const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('is-visible') }), { threshold: 0.1 }); document.querySelectorAll('.reveal').forEach((element) => observer.observe(element)); return () => observer.disconnect() }, [])
-  const orderedProjects = [projects[1], projects[2], projects[0]]
-  return <div className="site-shell">
-    <header className="site-header"><a className="brand" href="#top" aria-label="한주현 포트폴리오 홈"><span>JH</span><b>JUHYEON HAN</b></a><nav className={menuOpen ? 'nav-open' : ''} aria-label="주요 메뉴">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}</nav><div className="header-actions"><button className="theme-toggle" onClick={() => setDark(!dark)} aria-label={`${dark ? '라이트' : '다크'} 테마로 전환`}>{dark ? '☼' : '◐'}</button><button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="메뉴 열기">{menuOpen ? '×' : '☰'}</button></div></header>
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('is-visible')
+    }), { threshold: 0.08 })
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
+
+  return <div className="research-site">
+    <header className="research-header">
+      <a className="research-brand" href="#top"><span>JH</span><b>JUHYEON HAN</b></a>
+      <nav className={menuOpen ? 'open' : ''}>{researchNav.map((item) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}</nav>
+      <div className="research-header-actions">
+        <button onClick={() => setDark(!dark)} aria-label={`${dark ? '라이트' : '다크'} 테마로 전환`}>{dark ? '☼' : '◐'}</button>
+        <button className="research-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="메뉴 열기">{menuOpen ? '×' : '☰'}</button>
+      </div>
+    </header>
+
     <main id="top">
-      <section className="hero" id="about"><div className="hero-copy reveal is-visible"><p className="hero-kicker">AI ENGINEER · RESEARCHER</p><h1 className="portfolio-name"><span>Juhyeon</span><span>Han</span></h1><div className="identity-facts"><span><b>KAU</b> 인공지능학과 석사과정</span><span><b>ETRI</b> Visual Intelligence Lab 인턴</span><span><b>SEOUL</b> 대한민국</span></div><div className="hero-contact"><a href="mailto:hjh5842@kau.kr"><span>이메일</span>hjh5842@kau.kr</a><a href="tel:+821089372753"><span>연락처</span>010-8937-2753</a></div><div className="hero-actions"><a className="button-primary" href="#projects">프로젝트 보기 <Arrow /></a></div></div><HeroVisuals /><div className="scroll-cue">아래로 스크롤 <span>↓</span></div></section>
-      <section id="projects" className="section-wrap"><SectionHeading index="01" eyebrow="주요 작업" title="프로젝트" /><div className="projects-list">{orderedProjects.map((project, index) => <ProjectCard key={project.id} project={project} index={index} />)}</div></section>
-      <section id="publications" className="section-wrap publications-section"><SectionHeading index="02" eyebrow="연구 · 08" title="연구 논문" />{publications.map((group) => <div className="publication-group reveal" key={group.category}><div className="publication-category"><h3>{group.category}</h3><span>논문 {String(group.items.length).padStart(2, '0')}편</span></div><div>{group.items.map((paper, index) => <article className="publication-row" key={paper.title}><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><div><p><b>논문</b> · {paper.venue} · {paper.year}</p><h4>{paper.title}</h4><div className="paper-tags">{paper.keywords.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div></div>{paper.link !== '#' && group.showLinks !== false ? <a href={paper.link} target="_blank" rel="noreferrer" aria-label={`${paper.title} 논문 보기`} title="논문 보기"><Arrow diagonal /></a> : <span className="publication-status">게재</span>}</article>)}</div></div>)}</section>
-      <section id="skills" className="section-wrap capabilities-section"><SectionHeading index="03" eyebrow="역량" title="기술" /><div className="capability-grid">{skills.map((skill, index) => <article className="capability-card reveal" key={skill.category}><span>0{index + 1}</span><h3>{skill.category}</h3><ul>{skill.items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}</div></section>
-      <section id="awards" className="section-wrap awards-section"><SectionHeading index="04" eyebrow="성과" title="수상" /><div className="award-grid">{awards.map((award, index) => <article className="award-card reveal" key={award.event}><div><span>{award.year}</span><b>0{index + 1}</b></div><p>대상</p><h3>{award.event}</h3><small>{award.organization}</small>{award.linkHref && <a href={award.linkHref} target="_blank" rel="noreferrer">관련 자료 보기 <Arrow diagonal /></a>}</article>)}</div></section>
+      <section className="research-hero">
+        <div className="research-hero-copy reveal is-visible">
+          <p className="research-kicker">MULTIMODAL AI · COMPUTER VISION</p>
+          <h1>Juhyeon Han</h1>
+          <h2>VLM과 원격탐사 연구</h2>
+          <p className="research-hero-text">한국어 장면문자 인식과 SAR 객체 탐지를 연구합니다.</p>
+          <div className="research-profile-line"><span>한국항공대학교 인공지능학과 석사과정</span><span>ETRI Visual Intelligence Lab 인턴</span></div>
+          <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a></div>
+        </div>
+        <div className="research-hero-visual reveal is-visible">
+          <div className="research-visual-head"><span>SELECTED RESEARCH</span><b>2025 — 2026</b></div>
+          <img src={publicAsset('images/etri-banner-comparison.jpg')} alt="VLM 기반 한국어 장면문자 인식 결과" />
+          <div className="research-visual-caption"><span>VLM · SCENE TEXT</span><p>Data composition and reasoning for Korean scene text recognition</p></div>
+          <div className="research-counts"><div><strong>08</strong><span>PUBLICATIONS</span></div><div><strong>02</strong><span>VLM PAPERS</span></div><div><strong>06</strong><span>CV · SAR PAPERS</span></div></div>
+        </div>
+      </section>
+
+      <section id="research" className="research-section">
+        <div className="research-section-head reveal"><p><span>01</span> RESEARCH FOCUS</p><h2>연구 분야</h2></div>
+        <div className="focus-grid">
+          {focusAreas.map((area) => <article className={`focus-card focus-${area.index} reveal`} key={area.title}>
+            <div className="focus-copy"><span className="focus-index">{area.index}</span><p>{area.title}</p><h3>{area.korean}</h3><div className="focus-tags">{area.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><p className="focus-description">{area.description}</p><b>{area.output}</b></div>
+            {area.image ? <img src={area.image} alt="한국어 장면문자 인식 연구 결과" /> : <div className="sar-visual" aria-label="SAR 연구 시각화"><span>SAR</span><i /><i /><i /><b>FREQUENCY · DOMAIN · DETECTION</b></div>}
+          </article>)}
+        </div>
+      </section>
+
+      <section id="publications" className="research-section publication-showcase">
+        <div className="research-section-head reveal"><p><span>02</span> PUBLICATIONS</p><h2>연구 논문 <em>08</em></h2></div>
+        {publications.map((group) => <div className="research-paper-group reveal" key={group.category}>
+          <div className="research-paper-category"><p>{group.category}</p><span>{String(group.items.length).padStart(2, '0')} PAPERS</span></div>
+          <div>{group.items.map((paper, index) => <article className="research-paper" key={paper.title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div><p>{paper.venue} · {paper.year}</p><h3>{paper.title}</h3><div>{paper.keywords.slice(0, 3).map((keyword) => <small key={keyword}>{keyword}</small>)}</div></div>
+            {paper.link !== '#' && group.showLinks !== false ? <a href={paper.link} target="_blank" rel="noreferrer" aria-label={`${paper.title} PDF 보기`}><Arrow /></a> : <b>게재</b>}
+          </article>)}</div>
+        </div>)}
+      </section>
+
+      <section id="experience" className="research-section experience-section">
+        <div className="research-section-head reveal"><p><span>03</span> RESEARCH EXPERIENCE</p><h2>연구 경험</h2></div>
+        <div className="experience-grid">
+          <article className="experience-card reveal"><div><span>ETRI</span><small>인턴</small></div><h3>Visual Intelligence Lab</h3><p>Qwen2.5-VL 후보 모델 비교, Vision-only fine-tuning, 구조화 프롬프트 설계와 데이터 구성별 성능 평가를 수행했습니다.</p><ul><li>현수막 OCR·유형 분류</li><li>Detection·Segmentation·Warping 전처리</li><li>CoT 적용 및 오류 분석</li></ul></article>
+          <article className="experience-card reveal"><div><span>KAU</span><small>석사과정</small></div><h3>Department of Artificial Intelligence</h3><p>멀티모달 학습과 컴퓨터 비전, 원격탐사 영상을 중심으로 객체 탐지와 도메인 적응 연구를 수행하고 있습니다.</p><ul><li>VLM · Multimodal Learning</li><li>SAR Object Detection</li><li>Frequency-domain Refinement</li></ul></article>
+        </div>
+        <div className="research-method reveal"><span>RESEARCH WORKFLOW</span><div><b>01</b><p>문제 정의</p></div><i>→</i><div><b>02</b><p>데이터·모델 설계</p></div><i>→</i><div><b>03</b><p>학습·비교 실험</p></div><i>→</i><div><b>04</b><p>정량·오류 분석</p></div></div>
+      </section>
+
+      <section id="projects" className="research-section applied-section">
+        <div className="research-section-head reveal"><p><span>04</span> APPLIED AI</p><h2>응용 프로젝트</h2></div>
+        <div className="applied-grid">{appliedProjects.map((project, index) => <article className="applied-card reveal" key={project.id}>
+          <img src={project.images[0].src} alt={project.images[0].label} />
+          <div><span>0{index + 1}</span><p>{index === 0 ? 'LEGAL AI' : 'MOBILE AI SERVICE'}</p><h3>{index === 0 ? '법률 LLM·RAG 질의응답' : 'CatchPlan'}</h3><small>{project.subtitle}</small><div className="applied-tags">{project.keywords.slice(0, 4).map((keyword) => <b key={keyword}>{keyword}</b>)}</div>{project.externalLinks?.[0] && <a href={project.externalLinks[0].href} target="_blank" rel="noreferrer">관련 자료 <Arrow /></a>}</div>
+        </article>)}</div>
+      </section>
+
+      <section id="awards" className="research-section result-section">
+        <div className="research-section-head reveal"><p><span>05</span> AWARDS · SKILLS</p><h2>성과와 역량</h2></div>
+        <div className="result-layout">
+          <div className="research-awards">{awards.map((award) => <article className="reveal" key={award.event}><span>{award.year}</span><div><b>대상</b><h3>{award.event}</h3><p>{award.organization}</p></div></article>)}</div>
+          <div className="research-skills reveal">{skills.map((group) => <div key={group.category}><h3>{group.category}</h3><p>{group.items.join(' · ')}</p></div>)}</div>
+        </div>
+      </section>
+
+      <section className="research-contact"><p>CONTACT</p><h2>Juhyeon Han</h2><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a><a href="tel:+821089372753">010-8937-2753</a></section>
     </main>
-    <footer><div className="brand"><span>JH</span><b>JUHYEON HAN</b></div><p>AI ENGINEER · MULTIMODAL AI RESEARCHER</p><a href="#top">맨 위로 ↑</a></footer>
+    <footer className="research-footer"><span>JUHYEON HAN · AI RESEARCHER</span><a href="#top">맨 위로 ↑</a></footer>
   </div>
 }
 
