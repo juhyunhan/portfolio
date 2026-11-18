@@ -162,11 +162,11 @@ function AerospaceScene() {
     mount.addEventListener('pointermove', handlePointer)
     mount.addEventListener('pointerleave', resetPointer)
 
-    const clock = new THREE.Clock()
+    const startTime = performance.now()
     let frameId = 0
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const animate = () => {
-      const elapsed = clock.getElapsedTime()
+      const elapsed = (performance.now() - startTime) / 1000
       world.rotation.x += (targetRotation.x - world.rotation.x) * 0.035
       world.rotation.y += (targetRotation.y - world.rotation.y) * 0.035
       earth.rotation.y = elapsed * (reduceMotion ? 0.015 : 0.05)
