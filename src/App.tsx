@@ -67,9 +67,9 @@ function App() {
           <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a></div>
         </div>
         <div className="research-hero-visual reveal is-visible">
-          <div className="research-visual-head"><span>SELECTED RESEARCH</span><b>2025 — 2026</b></div>
-          <img src={publicAsset('images/etri-banner-comparison.jpg')} alt="VLM 기반 한국어 장면문자 인식 결과" />
-          <div className="research-visual-caption"><span>VLM · SCENE TEXT</span><p>Data composition and reasoning for Korean scene text recognition</p></div>
+          <div className="research-visual-head"><span>EARTH OBSERVATION · AI</span><b>SATELLITE / AIRBORNE / SAR</b></div>
+          <img src={publicAsset('images/research-hero-aerospace.png')} alt="위성과 항공기를 활용한 원격탐사 연구 비주얼" />
+          <div className="research-visual-caption"><span>REMOTE SENSING VISION</span><p>Satellite and airborne imagery for intelligent Earth observation</p></div>
           <div className="research-counts"><div><strong>08</strong><span>PUBLICATIONS</span></div><div><strong>02</strong><span>VLM PAPERS</span></div><div><strong>06</strong><span>CV · SAR PAPERS</span></div></div>
         </div>
       </section>
