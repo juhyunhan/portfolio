@@ -40,11 +40,10 @@ function App() {
         <div className="research-hero-copy reveal is-visible">
           <p className="research-kicker">MULTIMODAL AI · COMPUTER VISION</p>
           <h1>Juhyeon Han</h1>
-          <h2>VLM과 원격탐사 연구</h2>
-          <p className="research-hero-text">한국어 장면문자 인식과 SAR 객체 탐지를 연구합니다.</p>
+          <h2>국방·항공우주 AI 연구</h2>
+          <p className="research-hero-text">SAR 영상 분석과 멀티모달 AI를 중심으로, 국방·항공우주 분야에 적용할 수 있는 인공지능을 연구합니다.</p>
           <div className="research-profile-line"><span>한국항공대학교 인공지능학과 석사과정</span><span>ETRI Visual Intelligence Lab 인턴</span></div>
           <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a></div>
-          <div className="research-counts research-hero-counts"><div><strong>08</strong><span>PUBLICATIONS</span></div><div><strong>02</strong><span>VLM PAPERS</span></div><div><strong>06</strong><span>CV · SAR PAPERS</span></div></div>
         </div>
       </section>
 
