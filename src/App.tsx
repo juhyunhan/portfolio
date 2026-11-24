@@ -69,7 +69,7 @@ function App() {
       </section>
 
       <section id="projects" className="research-section applied-section">
-        <div className="research-section-head reveal"><p><span>03</span> APPLIED AI</p><h2>응용 프로젝트</h2></div>
+        <div className="research-section-head reveal"><p><span>03</span> PROJECTS</p><h2>프로젝트</h2></div>
         <div className="applied-grid">{appliedProjects.map((project, index) => <article className="applied-card reveal" key={project.id}>
           <img src={project.images[0].src} alt={project.images[0].label} />
           <div><span>0{index + 1}</span><p>{index === 0 ? 'LEGAL AI' : 'MOBILE AI SERVICE'}</p><h3>{index === 0 ? '법률 LLM·RAG 질의응답' : 'CatchPlan'}</h3><small>{project.subtitle}</small><div className="applied-tags">{project.keywords.slice(0, 4).map((keyword) => <b key={keyword}>{keyword}</b>)}</div>{project.externalLinks?.[0] && <a href={project.externalLinks[0].href} target="_blank" rel="noreferrer">관련 자료 <Arrow /></a>}</div>
@@ -77,7 +77,7 @@ function App() {
       </section>
 
       <section id="awards" className="research-section result-section">
-        <div className="research-section-head reveal"><p><span>04</span> AWARDS · SKILLS</p><h2>성과와 역량</h2></div>
+        <div className="research-section-head reveal"><p><span>04</span> AWARDS</p><h2>수상</h2></div>
         <div className="result-layout">
           <div className="research-awards">{awards.map((award) => <article className="reveal" key={award.event}><span>{award.year}</span><div><b>대상</b><h3>{award.event}</h3><p>{award.organization}</p></div></article>)}</div>
           <div className="research-skills reveal">{skills.map((group) => <div key={group.category}><h3>{group.category}</h3><p>{group.items.join(' · ')}</p></div>)}</div>
