@@ -40,10 +40,13 @@ function App() {
         <div className="research-hero-copy reveal is-visible">
           <p className="research-kicker">MULTIMODAL AI · COMPUTER VISION</p>
           <h1>Juhyeon Han</h1>
-          <h2>국방·항공우주 AI 연구</h2>
-          <p className="research-hero-text">SAR 영상 분석과 멀티모달 AI를 중심으로, 국방·항공우주 분야에 적용할 수 있는 인공지능을 연구합니다.</p>
+          <h2>국방 및 항공우주 AI 연구</h2>
+          <p className="research-hero-text">국방과 항공우주 분야의 핵심 기술인 위성영상 분석과 무인기 위치추정을 중심으로 인공지능을 연구하고 있습니다.</p>
           <div className="research-profile-line"><span>한국항공대학교 인공지능학과 석사과정</span><span>ETRI Visual Intelligence Lab 인턴</span></div>
-          <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a></div>
+          <div className="research-hero-actions">
+            <a className="research-primary" href="#publications">논문 보기</a>
+            <a className="research-site-url" href="https://juhyunhan.github.io/portfolio/">juhyunhan.github.io/portfolio</a>
+          </div>
         </div>
       </section>
 
