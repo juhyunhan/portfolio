@@ -14,3 +14,22 @@
 .research-contact{padding:110px 24px;text-align:center;background:var(--blue);color:#fff}.research-contact>p{font:500 9px DM Mono;letter-spacing:.14em}.research-contact h2{font-size:clamp(48px,7vw,98px);letter-spacing:-.06em;margin:22px 0}.research-contact a{display:block;width:max-content;margin:11px auto;color:#fff;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:4px;font-size:15px}.research-footer{height:100px;padding:0 clamp(24px,6vw,96px);display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#fff}.research-footer span,.research-footer a{font:500 9px DM Mono;color:#8295ae;letter-spacing:.1em}
 @media(max-width:1050px){.research-header nav{display:none;position:absolute;top:72px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);padding:22px;flex-direction:column}.research-header nav.open{display:flex}.research-menu{display:block}.research-hero{grid-template-columns:1fr;padding-top:120px}.research-hero-visual{max-width:850px}.research-section-head,.research-paper-group{grid-template-columns:1fr}.focus-grid,.experience-grid,.applied-grid,.result-layout{grid-template-columns:1fr}.focus-card{min-height:0}.research-method{flex-wrap:wrap}.research-method>span{width:100%;margin-bottom:5px}}
 @media(max-width:640px){.research-header{height:64px;padding:0 16px}.research-brand b{display:none}.research-header nav{top:64px}.research-hero{min-height:0;padding:105px 18px 60px;gap:42px}.research-hero h1{font-size:58px}.research-hero h2{font-size:30px}.research-hero-actions{align-items:flex-start;flex-direction:column;gap:18px}.aerospace-scene{height:330px}.scene-hud-aircraft{right:4%;top:50%}.scene-interaction{display:none}.research-visual-caption{grid-template-columns:1fr;gap:8px}.research-counts div{padding:13px 10px}.research-counts strong{font-size:23px}.research-counts span{font-size:6px}.research-section{padding:85px 18px}.research-section-head{margin-bottom:38px}.research-section-head h2{font-size:44px}.focus-copy{padding:28px 22px}.focus-copy h3{font-size:31px}.focus-card>img,.sar-visual{min-height:230px}.research-paper-group{padding:26px 0}.research-paper{grid-template-columns:28px 1fr}.research-paper>a,.research-paper>b{grid-column:2}.experience-card{padding:28px 22px}.experience-card h3{margin-top:40px;font-size:25px}.research-method{display:grid;grid-template-columns:1fr}.research-method i{display:none}.applied-card{grid-template-rows:230px 1fr}.applied-card>div{padding:24px 20px}.research-awards article{grid-template-columns:65px 1fr}.research-footer{height:auto;padding:30px 18px;gap:20px}.research-footer span{max-width:170px}}
+
+/* Research-first, paper-direct hero */
+.research-hero-simple{min-height:700px;display:block;padding-top:165px;padding-bottom:95px}
+.research-hero-simple .research-hero-copy{max-width:1180px;margin:0 auto}
+.research-hero-simple .research-hero-text{max-width:760px}
+.research-hero-simple .research-profile-line span{font-size:14px;padding:12px 14px}
+.research-hero-simple .research-hero-actions>a{font-size:14px}
+.research-hero-counts{max-width:760px;margin-top:58px;border:1px solid #183b68}
+.research-counts span{font-size:12px}
+.research-section-head>p{font-size:12px}
+.research-paper-category span{font-size:12px}
+.research-paper>span,.research-paper div>p{font-size:12px}
+.research-paper small,.research-paper>b{font-size:11px}
+
+@media(max-width:640px){
+  .research-hero-simple{padding:115px 18px 65px}
+  .research-hero-counts{margin-top:40px}
+  .research-counts span{font-size:9px}
+}

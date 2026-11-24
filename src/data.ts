@@ -401,14 +401,14 @@ export const publications: PublicationGroup[] = [
       {
         title:
           'An Enhanced Object Detection Model Combining Energy-Efficient Spiking Neural Networks and Bidirectional Feature Pyramid Networks',
-        venue: 'Journal of Broadcast Engineering',
+        venue: '방송미디어공학회 학술대회',
         year: '2025',
         keywords: ['Object Detection', 'SNN', 'Feature Pyramid Network'],
         link: '#',
       },
       {
         title: 'Frequency-Domain Feature Refinement for HiViT-FPN Based SAR Object Detection',
-        venue: 'Journal of Broadcast Engineering',
+        venue: '방송미디어공학회 학술대회',
         year: '2025',
         keywords: ['SAR', 'HiViT', 'Frequency Domain'],
         link: '#',
