@@ -43,7 +43,7 @@ function App() {
           <h2>국방·항공우주 AI 연구</h2>
           <p className="research-hero-text">SAR 영상 분석과 멀티모달 AI를 중심으로, 국방·항공우주 분야에 적용할 수 있는 인공지능을 연구합니다.</p>
           <div className="research-profile-line"><span>한국항공대학교 인공지능학과 석사과정</span><span>ETRI Visual Intelligence Lab 인턴</span></div>
-          <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a></div>
+          <div className="research-hero-actions"><a className="research-primary" href="#publications">논문 보기 <span>↓</span></a></div>
         </div>
       </section>
 
@@ -84,7 +84,6 @@ function App() {
         </div>
       </section>
 
-      <section className="research-contact"><p>CONTACT</p><h2>Juhyeon Han</h2><a href="mailto:hjh5842@kau.kr">hjh5842@kau.kr <Arrow /></a><a href="tel:+821089372753">010-8937-2753</a></section>
     </main>
     <footer className="research-footer"><span>JUHYEON HAN · AI RESEARCHER</span><a href="#top">맨 위로 ↑</a></footer>
   </div>
